@@ -1,0 +1,89 @@
+<html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<body bgcolor="#FFFFFF">
+    <br><br><br><br>
+    <div align="center" ng-app="myApp" ng-controller="ctrl2">
+        <div style="width:300px; border: solid 1px #333333; " align="left">
+            <div style="background-color:#333333; color:#FFFFFF; padding:3px;"><b>Update</b></div>
+
+            <div style="margin:30px">
+
+                <form>
+                    <label>Name  &nbsp;&nbsp;&nbsp;:</label><input ng-init="name" class="box" /><br /><br />
+                    <label>Cost  &nbsp;&nbsp;&nbsp;:</label><input ng-init="cost" class="box" /><br/><br />
+                    <label>Bar code  &nbsp;:</label><input ng-init="bar-code" class="box" /><br /><br />
+                    <label>City &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</label><input ng-init="city" class="box" /><br/><br />
+                    <label>any-other-details  :</label><input ng-init="any-other-details" class="box" /><br/><br />
+                    <input type="button" value="get" ng-click="myFunc()" />
+                    <input type="button" value="update" ng-click="myFunc1()" />
+                </form>
+
+
+                <p>{{ names }}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('ctrl2', function($scope, $http) {
+            $scope.myFunc1 = function() {
+                alert("do you want to update?");
+                var name = $scope.name;
+                var cost = $scope.cost;
+                var bar code = $scope.bar code;
+                var city = $scope.city;
+                var any other details = $scope.any other details;
+                var req = {
+                    method: 'POST',
+                    url: 'http://localhost:3000/update',
+                    headers: {
+                        'Content-Type': 'Application/json'
+                    },
+                    data: {
+                        name: name,
+                        cost: cost,
+                        bar code: bar code,
+                        city: city,
+                       any other details: any other details                   }
+                }
+
+                $http(req)
+                    .then(function(response) {
+                        $scope.names = response.data;
+                    });
+            };
+            $scope.myFunc = function() {
+                alert("do you want to get details?");
+                var name = $scope.name;
+                var req = {
+                    method: 'POST',
+                    url: 'http://localhost:3000/retrieve',
+                    headers: {
+                        'Content-Type': 'Application/json'
+                    },
+                    data: {
+                        name: $scope.name
+                    }
+                }
+
+                $http(req)
+                    .then(function(response) {
+                    
+                        $scope.name = response;
+                console.log($scope.name);    
+                });
+            };
+
+        });
+
+    </script>
+
+</body>
+
+</html>
